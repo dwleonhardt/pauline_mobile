@@ -1,13 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import DailyItems from './components/DailyItems';
 
 export default class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      dailyItems: [],
+    }
+  }
+
+  componentDidMount() {
+  return fetch('https://paulineserver.herokuapp.com/daily_items')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log(responseJson);
+      let items = [];
+      for (var key in responseJson) {
+        items.push(responseJson[key].title);
+      }
+      this.setState({
+        dailyItems: items,
+      });
+    })
+  }
+
   render() {
+    console.log(this.state);
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <DailyItems dailyItems={this.state.dailyItems}></DailyItems>
       </View>
     );
   }
@@ -16,8 +38,5 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
