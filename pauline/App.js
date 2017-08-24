@@ -14,13 +14,8 @@ export default class App extends React.Component {
   return fetch('https://paulineserver.herokuapp.com/daily_items')
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
-      let items = [];
-      for (var key in responseJson) {
-        items.push(responseJson[key].title);
-      }
       this.setState({
-        dailyItems: items,
+        dailyItems: responseJson,
       });
     })
   }

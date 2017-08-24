@@ -10,7 +10,11 @@ class DailyItems extends React.Component {
 
 
   render() {
-    var names = this.props.dailyItems.map((items) => {return (<Text>{items}</Text>)});
+    let title = [];
+    for (var key in this.props.dailyItems) {
+      title.push(this.props.dailyItems[key].title);
+    }
+    var names = title.map((items, i) => {return (<Text key={i}>{items}</Text>)});
     console.log(this.props.dailyItems);
 
     return (
@@ -18,9 +22,10 @@ class DailyItems extends React.Component {
         {names}
       </View>
     )
- }
+  }
 
 }
+
 const styles = StyleSheet.create({
   nav: {
     flex: 0.3,
