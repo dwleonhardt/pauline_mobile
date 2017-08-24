@@ -10,12 +10,20 @@ class DailyItems extends React.Component {
 
 
   render() {
+    // console.log(this.props.dailyItems);
     let title = [];
     for (var key in this.props.dailyItems) {
       title.push(this.props.dailyItems[key].title);
     }
-    var names = title.map((items, i) => {return (<Text key={i}>{items}</Text>)});
-    console.log(this.props.dailyItems);
+    var names = this.props.dailyItems.map((items, i) => {
+      console.log(items);
+      return (
+        <View>
+          <Text key={items.id}>{items.title}</Text>
+          <Text>{items.instructions}</Text>
+        </View>
+      )
+    });
 
     return (
       <View style={{flex: 1}}>
