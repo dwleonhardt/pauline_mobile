@@ -11,22 +11,16 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-  return fetch('https://paulineserver.herokuapp.com/daily_items')
+    return fetch('https://paulineserver.herokuapp.com/daily_items')
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
-      let items = [];
-      for (var key in responseJson) {
-        items.push(responseJson[key].title);
-      }
       this.setState({
-        dailyItems: items,
+        dailyItems: responseJson,
       });
     })
   }
 
   render() {
-    console.log(this.state);
     return (
       <View style={styles.container}>
         <DailyItems dailyItems={this.state.dailyItems}></DailyItems>
