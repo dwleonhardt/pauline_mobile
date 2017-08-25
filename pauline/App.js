@@ -11,7 +11,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-  return fetch('https://paulineserver.herokuapp.com/daily_items')
+    return fetch('https://paulineserver.herokuapp.com/daily_items')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({

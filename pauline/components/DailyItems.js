@@ -18,8 +18,8 @@ class DailyItems extends React.Component {
     var names = this.props.dailyItems.map((items, i) => {
       console.log(items);
       return (
-        <View>
-          <Text key={items.id}>{items.title}</Text>
+        <View key={items.id}>
+          <Text>{items.title}</Text>
           <Text>{items.instructions}</Text>
         </View>
       )
