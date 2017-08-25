@@ -1,31 +1,40 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, ToolbarAndroid, Image, TouchableHighlight, Alert, Super } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import Nav from './Nav.js';
 
 class Home extends React.Component {
-  constructor () {
-
+  constructor() {
     super();
+    this.state = {
+      dailyItems: [],
+    }
+  }
+  static navigationOptions = {
+    title: 'Home',
+  };
+
+  componentDidMount() {
+    return fetch('https://paulineserver.herokuapp.com/daily_items')
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        dailyItems: responseJson,
+      });
+    })
   }
 
-
   render() {
-    var names = this.props.names.map((names) => {return (<Text>{names}</Text>)})
-    console.log(this.props.names);
+    const { navigate } = this.props.navigation;
 
     return (
       <View style={{flex: 1}}>
-        <Nav />
         <View style={styles.body}>
           <Image style={styles.circle} source={require('./cat.png')} />
           <View style={styles.menu}>
-            <TouchableHighlight style={styles.square} onPress={()=>Alert.alert('Daily Schedule')} underlayColor='grey'>
+            <TouchableHighlight style={styles.square} onPress={() => navigate('DailyItems', {dailyItems: this.state.dailyItems})} underlayColor='grey'>
               <Text style={styles.icon}>Daily Schedule</Text>
             </TouchableHighlight>
             <View style={styles.square}>
-              {/* <Text style={styles.icon}>Med Schedule</Text> */}
-              {names}
+              <Text style={styles.icon}>Med Schedule</Text>
             </View>
           </View>
         </View>

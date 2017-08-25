@@ -1,37 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import DailyItems from './components/DailyItems';
 import Home from './components/Home';
+import { Root } from './config/router'
+// import { NativeRouter, Route, Link } from 'react-router-native';
+// import { TabNavigator, StackNavigator } from 'react-navigation';
+
+
+// export const Tabs = TabNavigator({
+//   Menu: {
+//     screen: Home,
+//   },
+// });
+
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      dailyItems: [],
-    }
-  }
-
-  componentDidMount() {
-    return fetch('https://paulineserver.herokuapp.com/daily_items')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({
-        dailyItems: responseJson,
-      });
-    })
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-        <Home />
-      </View>
+      <Root/>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 });
+
+AppRegistry.registerComponent('Pauline', () => Pauline);
