@@ -10,7 +10,6 @@ class DailyItems extends React.Component {
 
 
   render() {
-    // console.log(this.props.dailyItems);
     let title = [];
     for (var key in this.props.dailyItems) {
       title.push(this.props.dailyItems[key].title);

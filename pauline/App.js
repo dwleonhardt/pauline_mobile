@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import DailyItems from './components/DailyItems';
+import Home from './components/Home';
 
 export default class App extends React.Component {
   constructor() {
@@ -23,7 +24,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <DailyItems dailyItems={this.state.dailyItems}></DailyItems>
+        <Home />
       </View>
     );
   }
