@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SectionList } from 'react-native';
 
 
 
@@ -32,6 +32,13 @@ class DailyItems extends React.Component {
     return (
       <View style={{flex: 1}}>
         {names}
+        {/* <SectionList
+          renderItem={({names}) => <ListItem title={names.title} />}
+          renderSectionHeader={({names}) => <H1 title={names.title} />}
+          sections={[ // homogenous rendering between sections
+
+          ]}
+        /> */}
       </View>
     )
   }
