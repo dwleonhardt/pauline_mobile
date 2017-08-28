@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, SectionList } from 'react-native';
-
+import ItemList from '../components/ItemList';
 
 
 class DailyItems extends React.Component {
@@ -31,14 +31,8 @@ class DailyItems extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        {names}
-        {/* <SectionList
-          renderItem={({names}) => <ListItem title={names.title} />}
-          renderSectionHeader={({names}) => <H1 title={names.title} />}
-          sections={[ // homogenous rendering between sections
 
-          ]}
-        /> */}
+        <ItemList dailyItems={this.state.dailyItems} />
       </View>
     )
   }

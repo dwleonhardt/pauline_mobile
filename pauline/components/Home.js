@@ -13,7 +13,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    return fetch('https://paulineserver.herokuapp.com/daily_items')
+    return fetch('https://paulineserver.herokuapp.com/scheduled_items')
     .then((response) => response.json())
     .then((responseJson) => {
       this.setState({
@@ -44,10 +44,6 @@ class Home extends React.Component {
 
 }
 const styles = StyleSheet.create({
-  nav: {
-    flex: 0.3,
-    backgroundColor: '#E5879E'
-  },
   body: {
     flex: 2,
     alignItems: 'center',
