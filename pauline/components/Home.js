@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'center',
     justifyContent: 'space-around',
-    // display: 'block'
   },
   menu: {
     flex: 1,
@@ -71,6 +70,7 @@ const styles = StyleSheet.create({
     margin: 45,
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 2,
     width: 80,
     height: 80,
     backgroundColor: '#cd87e5'

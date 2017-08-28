@@ -1,7 +1,5 @@
 import React from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
-import DailyItems from './components/DailyItems';
-import Home from './components/Home';
+import { StyleSheet, Text, View } from 'react-native';
 import { Root } from './config/router'
 
 
@@ -19,5 +17,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-AppRegistry.registerComponent('Pauline', () => Pauline);
