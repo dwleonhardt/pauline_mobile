@@ -1,33 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import DailyItems from './components/DailyItems';
+import { Root } from './config/router'
+
 
 export default class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      dailyItems: [],
-    }
-  }
-
-  componentDidMount() {
-    return fetch('https://paulineserver.herokuapp.com/daily_items')
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({
-        dailyItems: responseJson,
-      });
-    })
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-        <DailyItems dailyItems={this.state.dailyItems}></DailyItems>
-      </View>
+      <Root/>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
