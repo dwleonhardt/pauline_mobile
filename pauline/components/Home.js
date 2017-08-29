@@ -16,6 +16,9 @@ class Home extends React.Component {
     return fetch('https://paulineserver.herokuapp.com/scheduled_items')
     .then((response) => response.json())
     .then((responseJson) => {
+      responseJson = responseJson.sort(function(x, y){
+        return x.start_time - y.start_time;
+      })
       this.setState({
         dailyItems: responseJson,
       });
@@ -24,7 +27,6 @@ class Home extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-
     return (
       <View style={{flex: 1}}>
         <View style={styles.body}>
