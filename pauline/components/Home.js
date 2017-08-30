@@ -15,14 +15,8 @@ class Home extends React.Component {
   componentDidMount() {
     this.date = new Date();
     var dayStart = new Date(this.date.setHours(0,0,0,0)).toUTCString();
-    // dayStart = new Date(dayStart.getUTCFullYear(), dayStart.getUTCMonth(), dayStart.getUTCDate(), dayStart.getUTCHours(),
-    // dayStart.getUTCMinutes(), dayStart.getUTCSeconds());
     var dayEnd = new Date(this.date.setDate(this.date.getDate() + 1)).toUTCString();
-    // dayEnd = new Date(dayEnd.getUTCFullYear(), dayEnd.getUTCMonth(), dayEnd.getUTCDate(), dayEnd.getUTCHours(),
-    // dayEnd.getUTCMinutes(), dayEnd.getUTCSeconds());
-    // var dayStart = '2017-09-28T00:30:00.000Z';
-    // var dayEnd = '2017-09-28T20:30:00.000Z';
-    console.log(dayStart);
+    
     var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`})
     return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${day}`)
     .then((response) => response.json())
