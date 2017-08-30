@@ -13,9 +13,17 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    return fetch('https://paulineserver.herokuapp.com/daily_items')
+    this.date = new Date();
+    var dayStart = new Date(this.date.setHours(0,0,0,0)).toUTCString();
+    var dayEnd = new Date(this.date.setDate(this.date.getDate() + 1)).toUTCString();
+    
+    var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`})
+    return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${day}`)
     .then((response) => response.json())
     .then((responseJson) => {
+      responseJson = responseJson.sort(function(x, y){
+        return x.start_time - y.start_time;
+      })
       this.setState({
         dailyItems: responseJson,
       });
@@ -24,7 +32,6 @@ class Home extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-
     return (
       <View style={{flex: 1}}>
         <View style={styles.body}>
@@ -44,10 +51,6 @@ class Home extends React.Component {
 
 }
 const styles = StyleSheet.create({
-  nav: {
-    flex: 0.3,
-    backgroundColor: '#E5879E'
-  },
   body: {
     flex: 2,
     alignItems: 'center',
