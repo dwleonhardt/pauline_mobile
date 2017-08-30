@@ -10,7 +10,6 @@ class ItemList extends Component {
     rowHasChanged: (r1, r2) => r1 !== r2
   });
   this.state = {
-    forLolz: this.props.dailyItems2,
     dataSource: ds.cloneWithRows(this.props.dailyItems),
   };
 }

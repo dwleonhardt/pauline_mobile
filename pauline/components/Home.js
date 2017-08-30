@@ -1,11 +1,34 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, ToolbarAndroid, Image, TouchableHighlight, Alert, Super } from 'react-native';
 
+// const dayConverter = (date) => {
+//   var dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
+//   var dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
+//   var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+//   return getRange(day);
+// }
+
+// getRange = (range) => {
+//   console.log(range);
+//   return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
+//   .then((response) => response.json())
+//   .then((responseJson) => {
+//     responseJson = responseJson.sort(function(x, y){
+//       return x.start_time - y.start_time;
+//     })
+//     return responseJson;
+//     // this.setState({
+//     //   dailyItems: responseJson,
+//     // });
+//   })
+// }
+
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
       dailyItems: [],
+      today: new Date(),
     }
   }
   static navigationOptions = {
@@ -13,12 +36,15 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    this.date = new Date();
-    var dayStart = new Date(this.date.setHours(0,0,0,0)).toUTCString();
-    var dayEnd = new Date(this.date.setDate(this.date.getDate() + 1)).toUTCString();
-    
-    var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`})
-    return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${day}`)
+    // NOTE: this is where I'm defaulting the date back to where the seed data is REMOVE IN PRODUCTION
+    let day = new Date(this.state.today.setDate(this.state.today.getDate()-1))
+    // END
+
+    this.dayConverter(day);
+  }
+
+  getRange = (range) => {
+    return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
     .then((response) => response.json())
     .then((responseJson) => {
       responseJson = responseJson.sort(function(x, y){
@@ -30,6 +56,14 @@ class Home extends React.Component {
     })
   }
 
+  dayConverter = (date) => {
+    var dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
+    var dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
+    var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+    this.getRange(day);
+  }
+
+
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -37,7 +71,11 @@ class Home extends React.Component {
         <View style={styles.body}>
           <Image style={styles.circle} source={require('./cat.png')} />
           <View style={styles.menu}>
-            <TouchableHighlight style={styles.square} onPress={() => navigate('DailyItems', {dailyItems: this.state.dailyItems})} underlayColor='grey'>
+            <TouchableHighlight style={styles.square} onPress={() => navigate('DailyItems', {
+              dailyItems: this.state.dailyItems,
+              today: this.state.today,
+              dayConverter: this.dayConverter
+            })} underlayColor='grey'>
               <Text style={styles.icon}>Daily Schedule</Text>
             </TouchableHighlight>
             <View style={styles.square}>

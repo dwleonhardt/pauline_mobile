@@ -8,6 +8,8 @@ class DailyItems extends React.Component {
     super(props);
     this.state = {
       dailyItems: this.props.navigation.state.params.dailyItems,
+      today: this.props.navigation.state.params.today,
+      dayConverter: this.props.navigation.state.params.dayConverter
     }
   }
 
@@ -21,7 +23,7 @@ class DailyItems extends React.Component {
 
     return (
       <View style={{flex: 1}}>
-        <ItemList dailyItems={this.state.dailyItems}/>
+        <ItemList {...this.state}/>
       </View>
     )
   }
