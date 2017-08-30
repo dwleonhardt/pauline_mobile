@@ -1,33 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, ToolbarAndroid, Image, TouchableHighlight, Alert, Super } from 'react-native';
 
-// const dayConverter = (date) => {
-//   var dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
-//   var dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
-//   var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
-//   return getRange(day);
-// }
-
-// getRange = (range) => {
-//   console.log(range);
-//   return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
-//   .then((response) => response.json())
-//   .then((responseJson) => {
-//     responseJson = responseJson.sort(function(x, y){
-//       return x.start_time - y.start_time;
-//     })
-//     return responseJson;
-//     // this.setState({
-//     //   dailyItems: responseJson,
-//     // });
-//   })
-// }
-
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      dailyItems: [],
       today: new Date(),
     }
   }
@@ -37,32 +14,57 @@ class Home extends React.Component {
 
   componentDidMount() {
     // NOTE: this is where I'm defaulting the date back to where the seed data is REMOVE IN PRODUCTION
-    let day = new Date(this.state.today.setDate(this.state.today.getDate()-1))
     // END
-
-    this.dayConverter(day);
+    // day.setDate(day.getDate()-1)
+    this.dayConverter(this.state.today);
   }
 
+
   getRange = (range) => {
+    console.log(range);
     return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
     .then((response) => response.json())
     .then((responseJson) => {
       responseJson = responseJson.sort(function(x, y){
         return x.start_time - y.start_time;
       })
-      this.setState({
-        dailyItems: responseJson,
-      });
+      if (this.state.dailyItems) {
+        let copy = Object.assign({}, this.state);
+        copy.dailyItems = responseJson;
+        this.setState(copy);
+        this.refreshDay();
+      }
+      else {
+        let copy = Object.assign({}, this.state);
+        copy.dailyItems = responseJson;
+        this.setState(copy);
+      }
     })
   }
 
   dayConverter = (date) => {
-    var dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
-    var dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
-    var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
-    this.getRange(day);
+    // // console.log(this.state.today !== date);
+    // // console.log('before',this.state.today);
+    // // let copy = Object.assign({}, this.state);
+    // // copy.today = date;
+    // this.setState({today: date});
+    // console.log(this.state);
+    console.log('converter',date);
+    let dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
+    let dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
+    let range = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+    this.getRange(range);
   }
 
+  refreshDay = () => {
+    this.props.navigation.navigate('DailyItems',
+      {
+        dailyItems: this.state.dailyItems,
+        today: this.state.today,
+        dayConverter: this.dayConverter
+      }
+    )
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -70,14 +72,18 @@ class Home extends React.Component {
       <View style={{flex: 1}}>
         <View style={styles.body}>
           <Image style={styles.circle} source={require('./cat.png')} />
+
           <View style={styles.menu}>
             <TouchableHighlight style={styles.square} onPress={() => navigate('DailyItems', {
               dailyItems: this.state.dailyItems,
               today: this.state.today,
-              dayConverter: this.dayConverter
+              dayConverter: this.dayConverter,
+              refreshDay: this.refreshDay
             })} underlayColor='grey'>
+
               <Text style={styles.icon}>Daily Schedule</Text>
             </TouchableHighlight>
+
             <View style={styles.square}>
               <Text style={styles.icon}>Med Schedule</Text>
             </View>

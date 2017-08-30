@@ -15,19 +15,19 @@ class ItemList extends Component {
 }
 
   render() {
-    if ((this.props.dailyItems).length === 0) {
-      return <Text>No Events Today</Text>
-    }
-    else {
-      return (
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(data) => <Row {...data} />}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-        />
-      );
-    }
 
+      if ((this.props.dailyItems).length === 0) {
+        return <Text>No Events Today</Text>
+      }
+      else {
+        return (
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(data) => <Row {...data} />}
+            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+          />
+        );
+      }
   }
 }
 
