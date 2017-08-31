@@ -43,13 +43,6 @@ class Home extends React.Component {
   }
 
   dayConverter = (date) => {
-    // // console.log(this.state.today !== date);
-    // // console.log('before',this.state.today);
-    // // let copy = Object.assign({}, this.state);
-    // // copy.today = date;
-    // this.setState({today: date});
-    // console.log(this.state);
-    console.log('converter',date);
     let dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
     let dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
     let range = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});

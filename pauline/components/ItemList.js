@@ -17,7 +17,12 @@ class ItemList extends Component {
   render() {
 
       if ((this.props.dailyItems).length === 0) {
-        return <Text>No Events Today</Text>
+        return (
+          <View style={styles.noEvent}>
+            <Text style={{fontSize: 20}}>Nothing Scheduled Today</Text>
+          </View>
+        )
+
       }
       else {
         return (
@@ -46,6 +51,12 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
+  noEvent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })
 
 

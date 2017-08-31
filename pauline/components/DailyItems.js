@@ -27,8 +27,10 @@ class DailyItems extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Button title="backward" onPress={() => this.prevDay()}/>
-        <Button title="forward" onPress={() => this.nextDay()}/>
+        <View style={styles.buttons}>
+          <Button title="Previous" onPress={() => this.prevDay()}/>
+          <Button title="Next" onPress={() => this.nextDay()}/>
+        </View>
         <ItemList {...this.props.navigation.state.params} />
       </View>
     )
@@ -41,6 +43,11 @@ const styles = StyleSheet.create({
     flex: 0.3,
     backgroundColor: '#E5879E'
   },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+
+  }
 });
 
 export default DailyItems;
