@@ -24,6 +24,17 @@ class DailyItems extends React.Component {
     day = new Date(day.setDate(day.getDate()+1));
     this.props.navigation.state.params.dayConverter(day);
   }
+  currentDay = () => {
+    let dateString = this.props.navigation.state.params.dateString;
+    let day = this.props.navigation.state.params.today;
+    let today = new Date();
+    if (day.getDate() === today.getDate() && day.getYear() === today.getYear()) {
+      return 'Today';
+    }
+    else {
+      return dateString;
+    }
+  }
 
 
 
@@ -33,7 +44,7 @@ class DailyItems extends React.Component {
       <View style={{flex: 1}}>
         <View style={styles.date}>
           <Text style={{fontSize: 16}}>
-            {this.props.navigation.state.params.dateString}
+            {this.currentDay()}
           </Text>
         </View>
         <View style={styles.buttons}>
