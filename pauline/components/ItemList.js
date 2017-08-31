@@ -10,25 +10,29 @@ class ItemList extends Component {
     rowHasChanged: (r1, r2) => r1 !== r2
   });
   this.state = {
-    forLolz: this.props.dailyItems2,
     dataSource: ds.cloneWithRows(this.props.dailyItems),
   };
 }
 
   render() {
-    if ((this.props.dailyItems).length === 0) {
-      return <Text>No Events Today</Text>
-    }
-    else {
-      return (
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(data) => <Row {...data} />}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-        />
-      );
-    }
 
+      if ((this.props.dailyItems).length === 0) {
+        return (
+          <View style={styles.noEvent}>
+            <Text style={{fontSize: 20}}>Nothing Scheduled Today</Text>
+          </View>
+        )
+
+      }
+      else {
+        return (
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(data) => <Row {...data} />}
+            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+          />
+        );
+      }
   }
 }
 
@@ -47,6 +51,12 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
+  noEvent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 })
 
 

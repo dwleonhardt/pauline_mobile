@@ -5,7 +5,7 @@ class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      dailyItems: [],
+      today: new Date(),
     }
   }
   static navigationOptions = {
@@ -13,21 +13,50 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    this.date = new Date();
-    var dayStart = new Date(this.date.setHours(0,0,0,0)).toUTCString();
-    var dayEnd = new Date(this.date.setDate(this.date.getDate() + 1)).toUTCString();
-    
-    var day = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`})
-    return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${day}`)
+    // NOTE: this is where I'm defaulting the date back to where the seed data is REMOVE IN PRODUCTION
+    // END
+    // day.setDate(day.getDate()-1)
+    this.dayConverter(this.state.today);
+  }
+
+
+  getRange = (range) => {
+    console.log(range);
+    return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
     .then((response) => response.json())
     .then((responseJson) => {
       responseJson = responseJson.sort(function(x, y){
         return x.start_time - y.start_time;
       })
-      this.setState({
-        dailyItems: responseJson,
-      });
+      if (this.state.dailyItems) {
+        let copy = Object.assign({}, this.state);
+        copy.dailyItems = responseJson;
+        this.setState(copy);
+        this.refreshDay();
+      }
+      else {
+        let copy = Object.assign({}, this.state);
+        copy.dailyItems = responseJson;
+        this.setState(copy);
+      }
     })
+  }
+
+  dayConverter = (date) => {
+    let dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
+    let dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
+    let range = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+    this.getRange(range);
+  }
+
+  refreshDay = () => {
+    this.props.navigation.navigate('DailyItems',
+      {
+        dailyItems: this.state.dailyItems,
+        today: this.state.today,
+        dayConverter: this.dayConverter
+      }
+    )
   }
 
   render() {
@@ -36,10 +65,18 @@ class Home extends React.Component {
       <View style={{flex: 1}}>
         <View style={styles.body}>
           <Image style={styles.circle} source={require('./cat.png')} />
+
           <View style={styles.menu}>
-            <TouchableHighlight style={styles.square} onPress={() => navigate('DailyItems', {dailyItems: this.state.dailyItems})} underlayColor='grey'>
+            <TouchableHighlight style={styles.square} onPress={() => navigate('DailyItems', {
+              dailyItems: this.state.dailyItems,
+              today: this.state.today,
+              dayConverter: this.dayConverter,
+              refreshDay: this.refreshDay
+            })} underlayColor='grey'>
+
               <Text style={styles.icon}>Daily Schedule</Text>
             </TouchableHighlight>
+
             <View style={styles.square}>
               <Text style={styles.icon}>Med Schedule</Text>
             </View>

@@ -7,7 +7,7 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 const Row = (props) => {
 
   var start_time = new Date(props.start_time);
-  start_time = start_time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  start_time = start_time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}, { hour12: true });
 
   return (
     <View style={styles.container}>
