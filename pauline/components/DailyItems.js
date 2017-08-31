@@ -14,19 +14,39 @@ class DailyItems extends React.Component {
 
   prevDay = () => {
     let day = this.props.navigation.state.params.today;
+    this.props.navigation.state.params.updateDay(day);
     day = new Date(day.setDate(day.getDate()-1));
     this.props.navigation.state.params.dayConverter(day);
   }
   nextDay = () => {
     let day = this.props.navigation.state.params.today;
+    this.props.navigation.state.params.updateDay(day);
     day = new Date(day.setDate(day.getDate()+1));
     this.props.navigation.state.params.dayConverter(day);
   }
+  currentDay = () => {
+    let dateString = this.props.navigation.state.params.dateString;
+    let day = this.props.navigation.state.params.today;
+    let today = new Date();
+    if (day.getDate() === today.getDate() && day.getYear() === today.getYear()) {
+      return 'Today';
+    }
+    else {
+      return dateString;
+    }
+  }
+
+
 
 
   render() {
     return (
       <View style={{flex: 1}}>
+        <View style={styles.date}>
+          <Text style={{fontSize: 16}}>
+            {this.currentDay()}
+          </Text>
+        </View>
         <View style={styles.buttons}>
           <Button title="Previous" onPress={() => this.prevDay()}/>
           <Button title="Next" onPress={() => this.nextDay()}/>
@@ -47,6 +67,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
 
+  },
+  date: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   }
 });
 
