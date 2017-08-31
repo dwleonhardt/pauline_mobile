@@ -6,6 +6,7 @@ class Home extends React.Component {
     super();
     this.state = {
       today: new Date(),
+      dateString: '',
     }
   }
   static navigationOptions = {
@@ -13,15 +14,12 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    // NOTE: this is where I'm defaulting the date back to where the seed data is REMOVE IN PRODUCTION
-    // END
-    // day.setDate(day.getDate()-1)
     this.dayConverter(this.state.today);
+    this.updateDay(this.state.today);
   }
 
 
   getRange = (range) => {
-    console.log(range);
     return fetch(`https://paulineserver.herokuapp.com/scheduled_items/${range}`)
     .then((response) => response.json())
     .then((responseJson) => {
@@ -43,10 +41,20 @@ class Home extends React.Component {
   }
 
   dayConverter = (date) => {
-    let dayStart = new Date(date.setHours(0,0,0,0)).toUTCString();
-    let dayEnd = new Date(date.setDate(date.getDate() + 1)).toUTCString();
+    let dateCopy = new Date(date);
+    let dayStart = new Date(dateCopy.setHours(0,0,0,0)).toUTCString();
+    let dayEnd = new Date(dateCopy.setDate(date.getDate() + 1)).toUTCString();
     let range = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+    this.updateDay(date);
     this.getRange(range);
+  }
+
+  updateDay = (date) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    let dateString = date.toLocaleDateString('en-US', options);
+    let copy = Object.assign({}, this.state);
+    copy.dateString = dateString;
+    this.setState(copy);
   }
 
   refreshDay = () => {
@@ -54,7 +62,10 @@ class Home extends React.Component {
       {
         dailyItems: this.state.dailyItems,
         today: this.state.today,
-        dayConverter: this.dayConverter
+        dayConverter: this.dayConverter,
+        refreshDay: this.refreshDay,
+        updateDay: this.updateDay,
+        dateString: this.state.dateString
       }
     )
   }
@@ -71,7 +82,9 @@ class Home extends React.Component {
               dailyItems: this.state.dailyItems,
               today: this.state.today,
               dayConverter: this.dayConverter,
-              refreshDay: this.refreshDay
+              refreshDay: this.refreshDay,
+              updateDay: this.updateDay,
+              dateString: this.state.dateString,
             })} underlayColor='grey'>
 
               <Text style={styles.icon}>Daily Schedule</Text>
