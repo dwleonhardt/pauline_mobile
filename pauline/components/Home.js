@@ -45,6 +45,7 @@ class Home extends React.Component {
     let dayStart = new Date(dateCopy.setHours(0,0,0,0)).toUTCString();
     let dayEnd = new Date(dateCopy.setDate(date.getDate() + 1)).toUTCString();
     let range = JSON.stringify({start:`${dayStart}`, end:`${dayEnd}`});
+    console.log(range);
     this.updateDay(date);
     this.getRange(range);
   }
